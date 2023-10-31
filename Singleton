@@ -1,0 +1,30 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+type Singleton struct {
+	Data string
+}
+
+var instance *Singleton
+var once sync.Once
+
+func GetInstance() *Singleton {
+	once.Do(func() {
+		instance = &Singleton{Data: "I am the one and only Singleton instance!"}
+	})
+	return instance
+}
+
+func main() {
+	singleton := GetInstance()
+
+	fmt.Println("Original Data:", singleton.Data)
+	singleton.Data = "Modified Data"
+
+	anotherSingleton := GetInstance()
+	fmt.Println("Modified Data:", anotherSingleton.Data)
+}
